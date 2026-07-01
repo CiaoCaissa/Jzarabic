@@ -48,8 +48,12 @@
   .tab{
     flex:1;border:none;background:transparent;font-family:'Baloo 2';font-weight:700;
     font-size:14px;color:var(--muted);padding:11px 4px;border-radius:14px;cursor:pointer;
-    transition:.15s;white-space:nowrap;
+    transition:.15s;white-space:nowrap;position:relative;
   }
+  .tab-dot{position:absolute;top:5px;right:9px;width:9px;height:9px;border-radius:50%;background:var(--gold-deep);display:none;box-shadow:0 0 0 2px #fff}
+  .tab-dot.show{display:block}
+  .bk-warn{color:var(--gold-deep)}
+  .bk-ok{color:#1f6b47}
   .tab.active{background:var(--cedar);color:#fff;box-shadow:0 4px 0 #235e44}
   .tab:active{transform:translateY(2px)}
 
@@ -86,6 +90,60 @@
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
   .hidden{display:none!important}
 
+  /* Parent sub-tabs */
+  .psub-tabs{display:flex;gap:6px;margin-bottom:12px}
+  .psub-tabs button{flex:1;border:none;background:#fff;color:var(--muted);font-family:'Baloo 2';font-weight:700;font-size:14px;padding:10px 4px;border-radius:14px;box-shadow:0 3px 0 rgba(38,65,75,.1);cursor:pointer}
+  .psub-tabs button.active{background:var(--cedar);color:#fff;box-shadow:0 3px 0 #235e44}
+  .psub-tabs button:active{transform:translateY(2px)}
+
+  /* Gate */
+  .gate{background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:26px 20px;text-align:center}
+  .gate-lock{font-size:40px}
+  .gate h3{margin:6px 0;color:var(--cedar);font-size:22px}
+  .gate p{color:var(--muted);font-weight:700;font-size:14px;margin:0 0 14px}
+  .gate-q{font-family:'Baloo 2';font-size:30px;color:var(--ink);margin-bottom:12px}
+  .gate input,.add-form input,.word-card input[type=text],.word-card label input:not([type=checkbox]){
+    width:100%;max-width:260px;border:2px solid #e2ebef;border-radius:14px;padding:12px 14px;font-family:'Nunito';font-weight:700;font-size:16px;text-align:center;outline:none
+  }
+  .gate input:focus{border-color:var(--sky)}
+  .gate .next-btn{margin-top:12px}
+  .gate-msg{color:var(--coral-deep);font-weight:800;font-size:14px;margin-top:10px;min-height:18px}
+
+  /* Dashboard */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .stat{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:14px;text-align:center}
+  .stat-n{font-family:'Baloo 2';font-size:30px;color:var(--cedar);line-height:1}
+  .stat-l{color:var(--muted);font-weight:700;font-size:12px;margin-top:4px}
+  .dash-card{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px}
+  .dash-title{font-family:'Baloo 2';font-weight:700;color:var(--ink);font-size:16px;margin-bottom:10px}
+  .dash-sub{color:var(--muted);font-weight:700;font-size:12px;margin-top:8px;line-height:1.45}
+  .bar{background:#eef3f5;border-radius:999px;height:12px;overflow:hidden;flex:1}
+  .bar-fill{height:100%;border-radius:999px;transition:width .5s ease}
+  .fam-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-weight:800;font-size:13px;color:var(--ink)}
+  .fam-row span{width:96px;flex:0 0 auto}
+  .fam-row b{width:26px;text-align:right;flex:0 0 auto;color:var(--muted)}
+  .practice{display:flex;flex-wrap:wrap;gap:6px}
+  .pchip{background:var(--sky-soft);border-radius:999px;padding:6px 10px;font-family:'Baloo 2';font-weight:700;font-size:13px;color:var(--ink)}
+  .pchip i{color:var(--gold-deep);font-style:normal;font-size:11px;margin-left:2px}
+
+  /* Words manager */
+  .words-head{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px}
+  .add-form{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px}
+  .add-form input{width:100%;max-width:none;border:2px solid #e2ebef;border-radius:12px;padding:11px 12px;font-family:'Nunito';font-weight:700;font-size:15px;text-align:left}
+  .add-form input[dir=rtl]{text-align:right}
+  .words-list{display:flex;flex-direction:column;gap:10px}
+  .word-card{background:#fff;border-radius:16px;box-shadow:0 3px 0 rgba(38,65,75,.08);padding:12px 14px}
+  .word-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .word-card label{display:block;font-weight:800;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:8px}
+  .word-card label input:not([type=checkbox]){width:100%;max-width:none;text-align:left;border:2px solid #e2ebef;border-radius:12px;padding:10px 12px;margin-top:4px;font-size:15px}
+  .word-card label input[dir=rtl]{text-align:right}
+  .verify-line{display:flex!important;align-items:center;gap:8px;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;color:var(--ink)!important;margin-top:12px!important}
+  .verify-line input{width:20px;height:20px}
+  .badge{font-family:'Baloo 2';font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px}
+  .badge.ok{background:#DCF0E6;color:#1f6b47}
+  .badge.no{background:#FBE3D6;color:#9a5a1f}
+  .del{border:none;background:transparent;font-size:18px;cursor:pointer}
+
   /* Category chips */
   .cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;justify-content:center}
   .chip{
@@ -120,6 +178,10 @@
   .back{background:var(--cedar);color:#fff;transform:rotateY(180deg)}
   .back .say{font-size:16px;font-weight:800;color:#CFF0E1}
   .tap-tip{text-align:center;color:var(--muted);font-weight:700;font-size:13px;margin-top:12px}
+  .fmeter{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:800;font-size:12px}
+  .flabel{text-transform:uppercase;letter-spacing:.6px;margin-right:2px}
+  .fdot{width:10px;height:10px;border-radius:50%;background:#dde6ea;display:inline-block;transition:background .3s}
+  .fdot.on{background:var(--cedar-bright)}
   .hear-btn{
     display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;
     background:var(--gold);color:#5b3d00;font-family:'Baloo 2';font-weight:800;font-size:18px;
@@ -225,7 +287,7 @@
     <button class="tab active" data-mode="learn">🃏 Cards</button>
     <button class="tab" data-mode="quiz">🎯 Quiz</button>
     <button class="tab" data-mode="match">🧩 Match</button>
-    <button class="tab" data-mode="record">🎙️ Record</button>
+    <button class="tab" data-mode="parent">👨‍👧 Parent<span class="tab-dot" id="parentDot"></span></button>
   </div>
 
   <!-- Category chips -->
@@ -240,7 +302,7 @@
    Each word: [ English, Lebanese (friendly spelling), note, Arabic script ]
    The Arabic script drives the device's spoken-audio voice.
    Friendly spelling key: 3 = 'ayn, 7 = soft 'h', 2 = little catch (glottal stop). */
-const CATS = [
+const BASE = [
   { id:"phrases", label:"Say Hello", emoji:"👋", words:[
     ["how are you?","kifak?","boy: kifak / girl: kifik","كِيفَك؟"],
     ["good morning","saba7 il kher","","صَبَاح الخِير"],
@@ -369,17 +431,83 @@ const CATS = [
     ["donkey","7mar","","حْمار"],
   ]},
 ];
-/* "All Words" = every word gathered into one big set */
-CATS.unshift({ id:"all", label:"All Words", emoji:"🌟", words:[].concat.apply([], CATS.map(c=>c.words)) });
 
 /* ---------------- STATE ---------------- */
-let state = { mode:"learn", cat:CATS[0].id, fcIndex:0, flipped:false, coins:0, sound:true };
+let CATS = [];
+let customWords = [];          // parent-added words: {id,en,lb,note,ar,verified}
+let fam = {};                  // familiarity: { wordKey: correctCount }
+let parentUnlocked = false;
+let lastBackup = null;         // { sig, at } of the most recent full backup
+const FAM_MAX = 5;
+let state = { mode:"learn", cat:"all", psub:"dash", fcIndex:0, flipped:false, coins:0, sound:true };
 const $ = s => document.querySelector(s);
 const panel = $("#panel");
 const catsEl = $("#cats");
 const rand = n => Math.floor(Math.random()*n);
 const shuffle = a => a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
-const curCat = () => CATS.find(c=>c.id===state.cat);
+const curCat = () => CATS.find(c=>c.id===state.cat) || CATS[0];
+
+/* word helpers (work for built-in arrays [en,lb,note,ar] and custom [.. ,id,verified]) */
+const keyOf = w => w[4] || w[0];
+const customToArr = o => [o.en||"", o.lb||"", o.note||"", o.ar||"", o.id, !!o.verified];
+const baseWordsAll = () => [].concat.apply([], BASE.map(c=>c.words));
+const kidCustom = () => customWords.filter(o=>o.verified && o.en && o.lb).map(customToArr);
+function rebuildCats(){
+  const kc = kidCustom();
+  CATS = [{ id:"all", label:"All Words", emoji:"🌟", words: baseWordsAll().concat(kc) }, ...BASE];
+  if(kc.length) CATS.push({ id:"mine", label:"My Words", emoji:"✍️", words: kc });
+}
+
+/* familiarity */
+const famOf = w => fam[keyOf(w)] || 0;
+function bumpFam(w){ const k=keyOf(w); fam[k]=Math.min(FAM_MAX,(fam[k]||0)+1); saveFam(); }
+function famMeter(w){
+  const f=famOf(w);
+  const dots=Array.from({length:FAM_MAX},(_,i)=>`<span class="fdot ${i<f?'on':''}"></span>`).join('');
+  return `<span class="fmeter"><span class="flabel">familiar</span>${dots}${f>=FAM_MAX?' ⭐':''}</span>`;
+}
+
+/* persistence (served over https, so localStorage is stable) */
+function loadStore(){
+  try{ fam = JSON.parse(localStorage.getItem('yalla.fam')) || {}; }catch(e){ fam={}; }
+  try{ customWords = JSON.parse(localStorage.getItem('yalla.custom')) || []; }catch(e){ customWords=[]; }
+  try{ lastBackup = JSON.parse(localStorage.getItem('yalla.lastBackup')) || null; }catch(e){ lastBackup=null; }
+}
+function saveFam(){ try{ localStorage.setItem('yalla.fam', JSON.stringify(fam)); }catch(e){} updateBackupBadge(); }
+function saveCustom(){ try{ localStorage.setItem('yalla.custom', JSON.stringify(customWords)); }catch(e){} updateBackupBadge(); }
+
+/* unsaved-progress tracking (compares current data to the last full backup) */
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31 + s.charCodeAt(i))|0; } return h; }
+function backupSig(){
+  let famKeys=0, famSum=0; for(const k in fam){ famKeys++; famSum+=fam[k]; }
+  const custom=JSON.stringify(customWords);
+  const clipKeys=[...clips.keys()].sort().join(',');
+  return `${famKeys}:${famSum}:${custom.length}:${hashStr(custom)}:${clips.size}:${hashStr(clipKeys)}`;
+}
+const hasContent = () => clips.size>0 || customWords.length>0 || Object.keys(fam).length>0;
+function isDirty(){ if(!hasContent()) return false; return !lastBackup || lastBackup.sig!==backupSig(); }
+function markBackedUp(){ lastBackup={sig:backupSig(), at:Date.now()}; try{ localStorage.setItem('yalla.lastBackup', JSON.stringify(lastBackup)); }catch(e){} updateBackupBadge(); }
+function relTime(ts){
+  if(!ts) return "never";
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<45) return "just now";
+  if(s<90) return "a minute ago";
+  const m=Math.floor(s/60); if(m<60) return m+" min ago";
+  const h=Math.floor(m/60); if(h<24) return h+" hour"+(h>1?"s":"")+" ago";
+  const d=Math.floor(h/24); if(d<7) return d+" day"+(d>1?"s":"")+" ago";
+  return new Date(ts).toLocaleDateString();
+}
+function updateBackupBadge(){
+  const dot=document.getElementById('parentDot');
+  if(dot) dot.classList.toggle('show', isDirty());
+  const st=document.getElementById('backupStatus');
+  if(st) st.innerHTML = backupStatusHTML();
+}
+function backupStatusHTML(){
+  if(!hasContent()) return "Nothing to back up yet.";
+  if(isDirty()) return `<span class="bk-warn">● Unsaved progress ${lastBackup?`since last backup ${relTime(lastBackup.at)}`:`(never backed up)`}. Download a backup to keep it safe.</span>`;
+  return `<span class="bk-ok">✓ Up to date. Last backup ${relTime(lastBackup.at)}.</span>`;
+}
 
 /* ---------------- SOUND ---------------- */
 let audioCtx;
@@ -463,17 +591,20 @@ async function loadClips(){
     const all=await idbAll();
     all.forEach(([k,blob])=>clips.set(k,{blob,url:URL.createObjectURL(blob),type:blob.type}));
   }catch(e){}
-  if(state.mode==='record') renderRecord();
+  if(state.mode==='parent' && state.psub==='record') renderRecord();
+  updateBackupBadge();
 }
 async function saveClip(key, blob){
   const prev=clips.get(key); if(prev&&prev.url) URL.revokeObjectURL(prev.url);
   clips.set(key,{blob,url:URL.createObjectURL(blob),type:blob.type});
   try{ await idbPut(key,blob); }catch(e){}
+  updateBackupBadge();
 }
 async function removeClip(key){
   const prev=clips.get(key); if(prev&&prev.url) URL.revokeObjectURL(prev.url);
   clips.delete(key);
   try{ await idbDel(key); }catch(e){}
+  updateBackupBadge();
 }
 function pickMime(){
   const c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'];
@@ -532,7 +663,7 @@ function stopRec(){ try{ if(activeRec&&activeRec.recorder&&activeRec.recorder.st
 function playWord(item, force){
   if(!item) return;
   if(!force && !state.sound) return;
-  const clip=clips.get(item[0]);
+  const clip=clips.get(keyOf(item));
   if(clip && clip.url){ try{ const a=new Audio(clip.url); a.play().catch(()=>{}); return; }catch(e){} }
   speak(item[3], force);
 }
@@ -555,6 +686,40 @@ async function importPack(file){
     alert("Loaded "+n+" recording"+(n===1?"":"s")+".");
     renderRecord();
   }catch(e){ alert("That file isn't a valid voice pack."); }
+}
+function downloadJSON(text, name){
+  const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+  const a=document.createElement('a'); a.href=url; a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+// Full backup: recordings + custom words + familiarity, all in one file
+async function exportAll(){
+  const data={ app:"yalla-lebanese-backup", version:1, savedAt:new Date().toISOString(), fam, customWords, clips:{} };
+  for(const [k,c] of clips){ data.clips[k]={type:c.type||c.blob.type,data:await blobToB64(c.blob)}; }
+  downloadJSON(JSON.stringify(data), 'yalla-backup.json');
+  markBackedUp();
+}
+async function importAll(file, msgEl){
+  const say=t=>{ if(msgEl) msgEl.textContent=t; };
+  try{
+    const data=JSON.parse(await file.text());
+    if(data.app && data.app!=="yalla-lebanese-backup" && !data.clips && !data.fam && !data.customWords)
+      throw new Error("wrong file");
+    // familiarity: keep the higher score per word
+    if(data.fam){ for(const k in data.fam){ fam[k]=Math.max(fam[k]||0, data.fam[k]||0); } saveFam(); }
+    // custom words: union by id (imported wins on conflict)
+    if(Array.isArray(data.customWords)){
+      const byId={}; customWords.forEach(o=>{ if(o&&o.id) byId[o.id]=o; });
+      data.customWords.forEach(o=>{ if(o&&o.id) byId[o.id]=o; });
+      customWords=Object.values(byId); saveCustom();
+    }
+    // recordings
+    let n=0; const cl=data.clips||{};
+    for(const k of Object.keys(cl)){ await saveClip(k,b64ToBlob(cl[k].data,cl[k].type)); n++; }
+    rebuildCats(); renderCats();
+    say(`Restored: ${n} recordings, ${Array.isArray(data.customWords)?data.customWords.length:0} custom words, progress merged.`);
+    updateBackupBadge();
+  }catch(e){ say("That file isn't a valid Yalla backup."); }
 }
 
 /* ---------------- CEDAR + COINS ---------------- */
@@ -617,11 +782,11 @@ $("#soundBtn").onclick=function(){ state.sound=!state.sound; this.textContent=st
 
 /* ---------------- RENDER ROUTER ---------------- */
 function render(){
-  catsEl.classList.toggle("hidden", state.mode==="record");
+  catsEl.classList.toggle("hidden", state.mode==="parent");
   if(state.mode==="learn") renderLearn();
   else if(state.mode==="quiz") renderQuiz();
   else if(state.mode==="match") renderMatch();
-  else renderRecord();
+  else renderParent();
 }
 
 /* ---------------- FLASHCARDS ---------------- */
@@ -645,6 +810,7 @@ function renderLearn(){
         </div>
       </div>
       <div class="tap-tip">👆 tap the card to flip it</div>
+      <div class="center" style="margin-top:10px">${famMeter(item)}</div>
       <div class="center"><button class="hear-btn" id="hearBtn"><span class="spk">🔊</span> Hear it</button></div>
       <div class="voice-hint" id="voiceHint"></div>
       <div class="fc-nav">
@@ -664,9 +830,16 @@ function renderLearn(){
 
 /* ---------------- QUIZ ---------------- */
 let quiz = null;
+function weightedPick(list){
+  // low familiarity -> higher weight, so the quiz focuses on weaker words
+  const weights=list.map(w => (FAM_MAX - Math.min(FAM_MAX, famOf(w)) + 1));
+  let total=weights.reduce((a,b)=>a+b,0), r=Math.random()*total;
+  for(let i=0;i<list.length;i++){ r-=weights[i]; if(r<=0) return list[i]; }
+  return list[list.length-1];
+}
 function newQuiz(){
   const w=curCat().words;
-  const answer=w[rand(w.length)];
+  const answer=weightedPick(w);
   const askLbToEn = Math.random()<0.5 && w.length>=3; // mix directions
   let pool=shuffle(w.filter(x=>x!==answer)).slice(0,3);
   const opts=shuffle([answer,...pool]);
@@ -718,7 +891,7 @@ function choose(o,btn,e){
   if(correct){
     btn.classList.add("correct");
     fb.textContent="Sah! 🎉 +2 coins"; fb.className="feedback good";
-    addCoins(2); goodSound(); playWord(quiz.answer);
+    addCoins(2); goodSound(); playWord(quiz.answer); bumpFam(quiz.answer);
     const r=btn.getBoundingClientRect(); burst(r.left+r.width/2, r.top);
   }else{
     btn.classList.add("wrong");
@@ -775,7 +948,7 @@ function pick(btn,item,side){
     btn.classList.add("done"); btn.disabled=true;
     match.done++; addCoins(1); goodSound();
     const wobj = curCat().words.find(x=>x[0]===a.item.t || x[1]===a.item.t);
-    if(wobj) playWord(wobj);
+    if(wobj){ playWord(wobj); bumpFam(wobj); }
     const r=btn.getBoundingClientRect(); burst(r.left+r.width/2,r.top);
     $("#mStatus").textContent = match.done>=4 ? "All matched! 🎉 +bonus" : `Match English to Lebanese • ${match.done}/4`;
     if(match.done>=4){ addCoins(2); setTimeout(()=>{ newMatch(); renderMatch(); }, 1100); }
@@ -791,8 +964,9 @@ function pick(btn,item,side){
 
 /* ---------------- RECORD (parent) ---------------- */
 function renderRecord(){
-  const words = CATS.find(c=>c.id==="all").words;
-  const recorded = words.filter(w=>clips.has(w[0])).length;
+  const host = document.getElementById('psub') || panel;
+  const words = baseWordsAll().concat(customWords.map(customToArr));
+  const recorded = words.filter(w=>clips.has(keyOf(w))).length;
   const env=micEnv();
   const blocked = (!env.hasAPI || !env.secure || env.inFrame);
   let warn;
@@ -803,60 +977,213 @@ function renderRecord(){
     else if(!env.secure) why.push("this page isn't a secure (https) context");
     if(!env.hasAPI && !env.inFrame) why.push("this browser is hiding the mic API");
     warn = `<div class="rec-warn"><b>Recording is blocked here</b> because ${why.join(", and ")}.
-      <br><br><b>To record your voice:</b> save this file to a folder, then in that folder run
-      <br><code>python3 -m http.server</code>
-      <br>and open <code>http://localhost:8000/lebanese-for-kids.html</code> in Chrome or Safari, then allow the mic.
-      <br>Or host it free on GitHub Pages or Netlify (that also lets the kid's tablet record).
-      <br><br>Everything else works right here: cards, quiz, match, playback, and importing a voice pack.</div>`;
+      <br>Open the hosted (https) link in Chrome or Safari and allow the mic. Playback and importing a voice pack still work here.</div>`;
   } else {
-    warn = `<div class="rec-warn">Ready. Tap a red mic, allow the microphone when your browser asks, say the word once, then tap again to stop.</div>`;
+    warn = `<div class="rec-warn">Tap a red mic, allow the microphone when asked, say the word once, then tap again to stop.</div>`;
   }
-  panel.innerHTML = `
-    <div class="panel">
+  host.innerHTML = `
       <div class="rec-head">
-        <h3>🎙️ Record your voice</h3>
-        <p>Record each word once in real Lebanese. Your voice then plays everywhere in the app.</p>
-        <div class="rec-progress" id="recProg">${recorded} / ${words.length} words recorded</div>
+        <div class="rec-progress" id="recProg">🎙️ ${recorded} / ${words.length} words recorded</div>
         <div class="rec-tools">
-          <button class="ghost-btn" id="testBtn">🎤 Test microphone</button>
-          <button class="ghost-btn" id="expBtn">⬇︎ Export voice pack</button>
-          <button class="ghost-btn" id="impBtn">⬆︎ Import voice pack</button>
+          <button class="ghost-btn" id="testBtn">🎤 Test mic</button>
+          <button class="ghost-btn" id="expBtn">⬇︎ Export pack</button>
+          <button class="ghost-btn" id="impBtn">⬆︎ Import pack</button>
           <input type="file" id="impFile" accept="application/json,.json" class="hidden" />
         </div>
         <div class="rec-status" id="recStatus" style="display:none"></div>
         ${warn}
       </div>
-      <div class="rec-list" id="recList"></div>
-    </div>`;
-  const list=$("#recList");
+      <div class="rec-list" id="recList"></div>`;
+  const list=host.querySelector("#recList");
   words.forEach(w=>{
-    const has=clips.has(w[0]);
-    const isRec=activeRec && activeRec.key===w[0];
+    const k=keyOf(w);
+    const has=clips.has(k);
+    const isRec=activeRec && activeRec.key===k;
+    const label = w[0] && w[0].length ? w[0] : "(unlabeled)";
     const row=document.createElement("div"); row.className="rec-row";
     row.innerHTML=`
       <span class="rec-dot ${has?"on":""}"></span>
       <div class="txt">
-        <div class="en">${w[0]}</div>
+        <div class="en">${label}</div>
         <div class="lb">${w[1]} <span class="tl">${w[3]}</span></div>
       </div>
       <button class="icon-btn ib-play" ${has?"":"disabled"} title="Play">▶</button>
       <button class="icon-btn ib-rec ${isRec?"recording":""}" title="Record">${isRec?"⏹":"🎙️"}</button>`;
     const [playBtn, recBtn]=row.querySelectorAll("button");
     playBtn.onclick=()=>playWord(w, true);
-    recBtn.onclick=()=> isRec ? stopRec() : startRec(w[0]);
+    recBtn.onclick=()=> isRec ? stopRec() : startRec(k);
     list.appendChild(row);
   });
-  $("#testBtn").onclick=testMic;
-  $("#expBtn").onclick=exportPack;
-  $("#impBtn").onclick=()=>$("#impFile").click();
-  $("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importPack(f); e.target.value=""; };
+  host.querySelector("#testBtn").onclick=testMic;
+  host.querySelector("#expBtn").onclick=exportPack;
+  host.querySelector("#impBtn").onclick=()=>host.querySelector("#impFile").click();
+  host.querySelector("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importPack(f); e.target.value=""; };
+}
+
+/* ---------------- PARENT AREA (gated) ---------------- */
+function renderParent(){
+  if(!parentUnlocked){ renderGate(); return; }
+  panel.innerHTML = `
+    <div class="psub-tabs">
+      <button data-sub="dash">📊 Dashboard</button>
+      <button data-sub="words">✍️ Words</button>
+      <button data-sub="record">🎙️ Record</button>
+    </div>
+    <div id="psub"></div>`;
+  [...panel.querySelectorAll('.psub-tabs button')].forEach(b=>{
+    b.classList.toggle('active', b.dataset.sub===state.psub);
+    b.onclick=()=>{ state.psub=b.dataset.sub; renderParent(); };
+  });
+  if(state.psub==='words') renderWords();
+  else if(state.psub==='record') renderRecord();
+  else renderDashboard();
+}
+
+let gateAnswer=0;
+function renderGate(){
+  const a=13+rand(60), b=12+rand(60); gateAnswer=a+b;
+  panel.innerHTML = `
+    <div class="gate">
+      <div class="gate-lock">🔒</div>
+      <h3>Grown-ups only</h3>
+      <p>Progress tracking, recording, and adding words live here. Solve this to continue:</p>
+      <div class="gate-q">${a} + ${b} = ?</div>
+      <input id="gateIn" inputmode="numeric" placeholder="type the answer" />
+      <button class="next-btn" id="gateGo">Unlock</button>
+      <div class="gate-msg" id="gateMsg"></div>
+    </div>`;
+  const go=()=>{
+    if(parseInt($("#gateIn").value,10)===gateAnswer){ parentUnlocked=true; renderParent(); }
+    else { $("#gateMsg").textContent="Not quite. Give it another go."; $("#gateIn").value=""; $("#gateIn").focus(); }
+  };
+  $("#gateGo").onclick=go;
+  $("#gateIn").addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+}
+
+function bar(pct, color){ return `<div class="bar"><div class="bar-fill" style="width:${Math.round(pct)}%;background:${color}"></div></div>`; }
+
+function renderDashboard(){
+  const host=document.getElementById('psub');
+  const parentWords = baseWordsAll().concat(customWords.map(customToArr));
+  const kidWords = CATS.find(c=>c.id==="all").words;
+  const total = parentWords.length;
+  const recorded = parentWords.filter(w=>clips.has(keyOf(w))).length;
+  const b={neww:0,learning:0,familiar:0,mastered:0};
+  kidWords.forEach(w=>{ const f=famOf(w); if(f<=0)b.neww++; else if(f<=2)b.learning++; else if(f<FAM_MAX)b.familiar++; else b.mastered++; });
+  const kn=kidWords.length||1;
+  const customCount=customWords.length;
+  const unverified=customWords.filter(o=>!o.verified).length;
+  const practice = kidWords.filter(w=>famOf(w)<FAM_MAX).sort((x,y)=>famOf(x)-famOf(y)).slice(0,10);
+  host.innerHTML = `
+    <div class="dash">
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-n">${kidWords.length}</div><div class="stat-l">words for kid</div></div>
+        <div class="stat"><div class="stat-n">${b.mastered}</div><div class="stat-l">mastered</div></div>
+        <div class="stat"><div class="stat-n">${recorded}</div><div class="stat-l">recorded</div></div>
+        <div class="stat"><div class="stat-n">${customCount}</div><div class="stat-l">custom${unverified?` (${unverified} unverified)`:""}</div></div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">🎙️ Recordings</div>
+        ${bar(recorded/total*100, "var(--cedar-bright)")}
+        <div class="dash-sub">${recorded} of ${total} words have your voice</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">📈 Familiarity</div>
+        <div class="fam-row"><span>🆕 New</span>${bar(b.neww/kn*100,"#9fb4be")}<b>${b.neww}</b></div>
+        <div class="fam-row"><span>🌱 Learning</span>${bar(b.learning/kn*100,"var(--gold)")}<b>${b.learning}</b></div>
+        <div class="fam-row"><span>💪 Familiar</span>${bar(b.familiar/kn*100,"var(--sky)")}<b>${b.familiar}</b></div>
+        <div class="fam-row"><span>⭐ Mastered</span>${bar(b.mastered/kn*100,"var(--cedar-bright)")}<b>${b.mastered}</b></div>
+        <div class="dash-sub">Familiarity goes up each time a word is answered right in Quiz or Match. Quizzes lean toward the weakest words.</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">🎯 Needs practice</div>
+        <div class="practice">${practice.length ? practice.map(w=>`<span class="pchip">${w[0]||w[1]} <i>${"●".repeat(famOf(w))+"○".repeat(FAM_MAX-famOf(w))}</i></span>`).join("") : "Everything is mastered. 🎉"}</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">💾 Backup everything</div>
+        <div class="dash-sub" id="backupStatus" style="margin-top:0;font-weight:800">${backupStatusHTML()}</div>
+        <div class="dash-sub" style="margin-top:6px">One file holding recordings, custom words, and familiarity progress. Restore it on another device to move it all across. Restoring merges: it keeps the higher familiarity per word and unions words and recordings.</div>
+        <div class="rec-tools" style="margin-top:10px">
+          <button class="ghost-btn" id="bkExp">⬇︎ Download backup</button>
+          <button class="ghost-btn" id="bkImp">⬆︎ Restore backup</button>
+          <input type="file" id="bkFile" accept="application/json,.json" class="hidden">
+        </div>
+        <div class="dash-sub" id="backupMsg" style="font-weight:800"></div>
+      </div>
+
+      <div class="dash-card">
+        <button class="ghost-btn" id="resetFam">↺ Reset familiarity</button>
+      </div>
+    </div>`;
+  const rf=host.querySelector("#resetFam");
+  rf.onclick=()=>{ if(confirm("Reset all familiarity progress? Recordings and words are kept.")){ fam={}; saveFam(); renderDashboard(); } };
+  host.querySelector("#bkExp").onclick=exportAll;
+  host.querySelector("#bkImp").onclick=()=>host.querySelector("#bkFile").click();
+  host.querySelector("#bkFile").onchange=e=>{ const f=e.target.files[0]; if(f) importAll(f, host.querySelector("#backupMsg")).then(()=>{ /* refresh stats */ if(state.psub==='dash') { const msg=host.querySelector('#backupMsg').textContent; renderDashboard(); const m=document.querySelector('#backupMsg'); if(m) m.textContent=msg; } }); e.target.value=""; };
+}
+
+function renderWords(){
+  const host=document.getElementById('psub');
+  const rows = customWords.map(o=>{
+    const badge = o.verified ? `<span class="badge ok">verified</span>` : `<span class="badge no">unverified</span>`;
+    return `
+      <div class="word-card" data-id="${o.id}">
+        <div class="word-top">${badge}<button class="del" data-id="${o.id}" title="Delete">🗑️</button></div>
+        <label>English <input data-f="en" data-id="${o.id}" value="${(o.en||"").replace(/"/g,'&quot;')}" placeholder="(unlabeled)"></label>
+        <label>Lebanese <input data-f="lb" data-id="${o.id}" value="${(o.lb||"").replace(/"/g,'&quot;')}" placeholder="e.g. marhaba"></label>
+        <label>Arabic (for audio) <input data-f="ar" data-id="${o.id}" dir="rtl" value="${(o.ar||"").replace(/"/g,'&quot;')}" placeholder="optional"></label>
+        <label class="verify-line"><input type="checkbox" data-f="verified" data-id="${o.id}" ${o.verified?"checked":""}> Verified (show to the kid)</label>
+      </div>`;
+  }).join("");
+  host.innerHTML = `
+    <div class="words-head">
+      <div class="dash-title">✍️ Add a word</div>
+      <div class="add-form">
+        <input id="nwEn" placeholder="English (can leave blank for now)">
+        <input id="nwLb" placeholder="Lebanese (friendly spelling)">
+        <input id="nwAr" dir="rtl" placeholder="Arabic script (optional, for audio)">
+        <input id="nwNote" placeholder="Note (optional)">
+        <button class="next-btn" id="addWord">Add word</button>
+        <div class="gate-msg" id="wordsMsg"></div>
+      </div>
+      <div class="dash-sub">New words start <b>unverified</b> and stay hidden from the kid's cards and games until you tick <b>Verified</b>. Editing lives here in the grown-up area, so the kid can't change words by accident.</div>
+    </div>
+    <div class="words-list">${rows || `<div class="dash-sub" style="text-align:center;padding:14px">No custom words yet. Add one above.</div>`}</div>`;
+
+  host.querySelector("#addWord").onclick=addCustomWord;
+  host.querySelectorAll('.word-card input').forEach(inp=>{
+    const ev = inp.type==='checkbox' ? 'change' : 'change';
+    inp.addEventListener(ev, ()=>{
+      const o=customWords.find(x=>x.id===inp.dataset.id); if(!o) return;
+      const f=inp.dataset.f;
+      o[f] = inp.type==='checkbox' ? inp.checked : inp.value.trim();
+      saveCustom(); rebuildCats();
+      if(f==='verified'){ renderWords(); renderCats(); }
+    });
+  });
+  host.querySelectorAll('.word-card .del').forEach(btn=>{
+    btn.onclick=()=>{ if(confirm("Delete this word?")){ const id=btn.dataset.id; removeClip(id); customWords=customWords.filter(x=>x.id!==id); saveCustom(); rebuildCats(); renderWords(); renderCats(); } };
+  });
+}
+function addCustomWord(){
+  const en=$("#nwEn").value.trim(), lb=$("#nwLb").value.trim(), ar=$("#nwAr").value.trim(), note=$("#nwNote").value.trim();
+  if(!en && !lb){ $("#wordsMsg").textContent="Type at least an English or a Lebanese word."; return; }
+  customWords.push({ id:"c"+Date.now().toString(36)+rand(999), en, lb, note, ar, verified:false });
+  saveCustom(); rebuildCats(); renderWords();
 }
 
 /* ---------------- INIT ---------------- */
+loadStore();
+rebuildCats();
 renderCats();
 render();
 updateCedar();
 loadClips();
+updateBackupBadge();
 </script>
 </body>
 </html>
