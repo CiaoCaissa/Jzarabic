@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Yalla! Learn Lebanese</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cedar:#2E7D5B; --cedar-bright:#54B989; --gold:#F5B841; --gold-deep:#E39A1F;
+    --sky:#6EC1E4; --sky-soft:#DCEEF6; --coral:#EF6F6C; --coral-deep:#D9534F;
+    --cream:#FFF9EF; --ink:#26414B; --muted:#7C94A0;
+    --shadow:0 8px 0 rgba(38,65,75,.10), 0 12px 24px rgba(38,65,75,.12);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:'Nunito',system-ui,sans-serif; color:var(--ink);
+    background:linear-gradient(#BFE6F5 0%, var(--sky-soft) 34%, var(--cream) 70%);
+    min-height:100dvh; overflow-x:hidden;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:16px 16px 40px;}
+  h1,h2,h3,.display{font-family:'Baloo 2',cursive;font-weight:800;letter-spacing:.2px}
+
+  /* Header + cedar */
+  header{text-align:center;padding-top:6px}
+  .title{font-size:clamp(30px,8vw,42px);color:var(--cedar);margin:0;line-height:1}
+  .title .yalla{color:var(--gold-deep)}
+  .subtitle{margin:2px 0 10px;color:var(--muted);font-weight:700;font-size:15px}
+
+  .cedar-card{
+    background:#fff;border-radius:26px;box-shadow:var(--shadow);
+    padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:14px;
+    border:3px solid #fff;
+  }
+  .cedar-svg{width:96px;height:110px;flex:0 0 auto}
+  .tier{transition:fill .5s ease, transform .5s ease; transform-origin:center bottom}
+  .coin-info{flex:1}
+  .coin-row{display:flex;align-items:center;gap:8px;font-family:'Baloo 2';font-size:26px;color:var(--gold-deep)}
+  .coin-row .n{font-size:32px}
+  .coin-sub{color:var(--muted);font-weight:700;font-size:13px;margin-top:2px}
+  .grow-note{font-size:13px;color:var(--cedar);font-weight:800;margin-top:6px}
+
+  /* Tabs */
+  .tabs{display:flex;gap:6px;margin-bottom:14px;background:#fff;padding:6px;border-radius:20px;box-shadow:var(--shadow)}
+  .tab{
+    flex:1;border:none;background:transparent;font-family:'Baloo 2';font-weight:700;
+    font-size:14px;color:var(--muted);padding:11px 4px;border-radius:14px;cursor:pointer;
+    transition:.15s;white-space:nowrap;position:relative;
+  }
+  .tab-dot{position:absolute;top:5px;right:9px;width:9px;height:9px;border-radius:50%;background:var(--gold-deep);display:none;box-shadow:0 0 0 2px #fff}
+  .tab-dot.show{display:block}
+  .bk-warn{color:var(--gold-deep)}
+  .bk-ok{color:#1f6b47}
+  .tab.active{background:var(--cedar);color:#fff;box-shadow:0 4px 0 #235e44}
+  .tab:active{transform:translateY(2px)}
+
+  /* Record (parent) mode */
+  .rec-head{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
+  .rec-head h3{margin:0 0 4px;color:var(--cedar);font-size:20px}
+  .rec-head p{margin:0;color:var(--muted);font-weight:700;font-size:13px;line-height:1.4}
+  .rec-progress{font-family:'Baloo 2';color:var(--gold-deep);font-size:15px;margin-top:8px}
+  .rec-tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .rec-tools .ghost-btn{margin:0}
+  .rec-warn{background:#FFF3D6;color:#7a5a10;border-radius:14px;padding:10px 12px;font-weight:700;font-size:13px;margin-top:10px;line-height:1.5}
+  .rec-warn code{background:rgba(0,0,0,.06);padding:2px 6px;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;font-weight:700}
+  .rec-status{border-radius:12px;padding:10px 12px;font-weight:800;font-size:13px;margin-top:10px;line-height:1.45}
+  .rec-list{display:flex;flex-direction:column;gap:8px}
+  .rec-row{
+    background:#fff;border-radius:16px;box-shadow:0 3px 0 rgba(38,65,75,.08);
+    padding:10px 12px;display:flex;align-items:center;gap:10px
+  }
+  .rec-row .txt{flex:1;min-width:0}
+  .rec-row .en{font-family:'Baloo 2';font-weight:700;font-size:16px;color:var(--ink);line-height:1.1}
+  .rec-row .lb{font-weight:700;font-size:13px;color:var(--cedar)}
+  .rec-row .lb .tl{color:var(--muted);font-weight:700}
+  .rec-dot{width:9px;height:9px;border-radius:50%;background:#d9e2e6;flex:0 0 auto}
+  .rec-dot.on{background:var(--cedar-bright)}
+  .icon-btn{
+    border:none;cursor:pointer;width:44px;height:44px;border-radius:50%;font-size:18px;flex:0 0 auto;
+    box-shadow:0 3px 0 rgba(38,65,75,.12);
+  }
+  .icon-btn:active{transform:translateY(2px)}
+  .ib-rec{background:var(--coral);color:#fff}
+  .ib-rec.recording{animation:pulse 1s infinite}
+  .ib-play{background:var(--sky-soft);color:var(--sky)}
+  .ib-play:disabled{opacity:.4;cursor:default}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  .hidden{display:none!important}
+
+  /* Parent sub-tabs */
+  .psub-tabs{display:flex;gap:6px;margin-bottom:12px}
+  .psub-tabs button{flex:1;border:none;background:#fff;color:var(--muted);font-family:'Baloo 2';font-weight:700;font-size:14px;padding:10px 4px;border-radius:14px;box-shadow:0 3px 0 rgba(38,65,75,.1);cursor:pointer}
+  .psub-tabs button.active{background:var(--cedar);color:#fff;box-shadow:0 3px 0 #235e44}
+  .psub-tabs button:active{transform:translateY(2px)}
+
+  /* Gate */
+  .gate{background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:26px 20px;text-align:center}
+  .gate-lock{font-size:40px}
+  .gate h3{margin:6px 0;color:var(--cedar);font-size:22px}
+  .gate p{color:var(--muted);font-weight:700;font-size:14px;margin:0 0 14px}
+  .gate-q{font-family:'Baloo 2';font-size:30px;color:var(--ink);margin-bottom:12px}
+  .gate input,.add-form input,.word-card input[type=text],.word-card label input:not([type=checkbox]){
+    width:100%;max-width:260px;border:2px solid #e2ebef;border-radius:14px;padding:12px 14px;font-family:'Nunito';font-weight:700;font-size:16px;text-align:center;outline:none
+  }
+  .gate input:focus{border-color:var(--sky)}
+  .gate .next-btn{margin-top:12px}
+  .gate-msg{color:var(--coral-deep);font-weight:800;font-size:14px;margin-top:10px;min-height:18px}
+
+  /* Dashboard */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .stat{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:14px;text-align:center}
+  .stat-n{font-family:'Baloo 2';font-size:30px;color:var(--cedar);line-height:1}
+  .stat-l{color:var(--muted);font-weight:700;font-size:12px;margin-top:4px}
+  .dash-card{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px}
+  .dash-title{font-family:'Baloo 2';font-weight:700;color:var(--ink);font-size:16px;margin-bottom:10px}
+  .dash-sub{color:var(--muted);font-weight:700;font-size:12px;margin-top:8px;line-height:1.45}
+  .bar{background:#eef3f5;border-radius:999px;height:12px;overflow:hidden;flex:1}
+  .bar-fill{height:100%;border-radius:999px;transition:width .5s ease}
+  .fam-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-weight:800;font-size:13px;color:var(--ink)}
+  .fam-row span{width:96px;flex:0 0 auto}
+  .fam-row b{width:26px;text-align:right;flex:0 0 auto;color:var(--muted)}
+  .practice{display:flex;flex-wrap:wrap;gap:6px}
+  .pchip{background:var(--sky-soft);border-radius:999px;padding:6px 10px;font-family:'Baloo 2';font-weight:700;font-size:13px;color:var(--ink)}
+  .pchip i{color:var(--gold-deep);font-style:normal;font-size:11px;margin-left:2px}
+
+  /* Words manager */
+  .words-head{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px}
+  .add-form{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px}
+  .add-form input{width:100%;max-width:none;border:2px solid #e2ebef;border-radius:12px;padding:11px 12px;font-family:'Nunito';font-weight:700;font-size:15px;text-align:left}
+  .add-form input[dir=rtl]{text-align:right}
+  .words-list{display:flex;flex-direction:column;gap:10px}
+  .word-card{background:#fff;border-radius:16px;box-shadow:0 3px 0 rgba(38,65,75,.08);padding:12px 14px}
+  .word-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .word-card label{display:block;font-weight:800;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:8px}
+  .word-card label input:not([type=checkbox]){width:100%;max-width:none;text-align:left;border:2px solid #e2ebef;border-radius:12px;padding:10px 12px;margin-top:4px;font-size:15px}
+  .word-card label input[dir=rtl]{text-align:right}
+  .verify-line{display:flex!important;align-items:center;gap:8px;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;color:var(--ink)!important;margin-top:12px!important}
+  .verify-line input{width:20px;height:20px}
+  .badge{font-family:'Baloo 2';font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px}
+  .badge.ok{background:#DCF0E6;color:#1f6b47}
+  .badge.no{background:#FBE3D6;color:#9a5a1f}
+  .del{border:none;background:transparent;font-size:18px;cursor:pointer}
+
+  /* Category chips */
+  .cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;justify-content:center}
+  .chip{
+    border:none;font-family:'Baloo 2';font-weight:600;font-size:14px;
+    padding:9px 14px;border-radius:999px;cursor:pointer;background:#fff;color:var(--ink);
+    box-shadow:0 3px 0 rgba(38,65,75,.10);transition:.12s;
+  }
+  .chip .emoji{margin-right:4px}
+  .chip.active{background:var(--gold);color:#5b3d00;box-shadow:0 3px 0 var(--gold-deep)}
+  .chip:active{transform:translateY(2px)}
+
+  .panel{animation:pop .25s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* Flashcard */
+  .fc-stage{perspective:1200px;margin:0 auto;max-width:420px}
+  .flashcard{
+    position:relative;width:100%;aspect-ratio:5/3.4;cursor:pointer;
+    transition:transform .55s cubic-bezier(.34,1.4,.5,1);transform-style:preserve-3d;
+  }
+  .flashcard.flipped{transform:rotateY(180deg)}
+  .face{
+    position:absolute;inset:0;border-radius:26px;backface-visibility:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:var(--shadow);padding:18px;text-align:center;
+  }
+  .face .kicker{font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;opacity:.7}
+  .face .word{font-family:'Baloo 2';font-size:clamp(34px,9vw,52px);line-height:1.05;margin:6px 0}
+  .face .hint{font-weight:700;opacity:.75;font-size:14px}
+  .front{background:#fff;color:var(--ink)}
+  .front .word{color:var(--sky)}
+  .back{background:var(--cedar);color:#fff;transform:rotateY(180deg)}
+  .back .say{font-size:16px;font-weight:800;color:#CFF0E1}
+  .tap-tip{text-align:center;color:var(--muted);font-weight:700;font-size:13px;margin-top:12px}
+  .fmeter{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:800;font-size:12px}
+  .flabel{text-transform:uppercase;letter-spacing:.6px;margin-right:2px}
+  .fdot{width:10px;height:10px;border-radius:50%;background:#dde6ea;display:inline-block;transition:background .3s}
+  .fdot.on{background:var(--cedar-bright)}
+  .hear-btn{
+    display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;
+    background:var(--gold);color:#5b3d00;font-family:'Baloo 2';font-weight:800;font-size:18px;
+    padding:12px 22px;border-radius:16px;box-shadow:0 5px 0 var(--gold-deep);margin-top:14px
+  }
+  .hear-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--gold-deep)}
+  .hear-btn .spk{font-size:20px}
+  .center{text-align:center}
+  .voice-hint{text-align:center;color:var(--muted);font-weight:700;font-size:12px;margin-top:8px;min-height:16px;padding:0 12px}
+  .mini-spk{
+    border:none;background:rgba(255,255,255,.22);color:#fff;cursor:pointer;
+    width:44px;height:44px;border-radius:50%;font-size:20px;margin-top:10px
+  }
+  .mini-spk:active{transform:translateY(2px)}
+  .q-spk{border:none;background:var(--sky-soft);color:var(--sky);cursor:pointer;width:40px;height:40px;border-radius:50%;font-size:18px;vertical-align:middle;margin-left:6px}
+  .fc-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;max-width:420px;margin-left:auto;margin-right:auto}
+  .nav-btn{
+    border:none;background:#fff;color:var(--cedar);font-family:'Baloo 2';font-weight:700;
+    font-size:22px;width:60px;height:52px;border-radius:16px;box-shadow:0 4px 0 rgba(38,65,75,.12);cursor:pointer
+  }
+  .nav-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(38,65,75,.12)}
+  .counter{font-family:'Baloo 2';font-weight:700;color:var(--muted)}
+
+  /* Quiz */
+  .q-card{background:#fff;border-radius:26px;box-shadow:var(--shadow);padding:22px 18px;text-align:center}
+  .q-kicker{font-weight:800;color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:1px}
+  .q-word{font-family:'Baloo 2';font-size:clamp(32px,9vw,48px);color:var(--sky);margin:6px 0 4px}
+  .q-ask{font-weight:700;color:var(--muted);font-size:14px;margin-bottom:16px}
+  .opts{display:grid;gap:10px}
+  .opt{
+    border:none;background:var(--sky-soft);color:var(--ink);font-family:'Baloo 2';font-weight:700;
+    font-size:20px;padding:15px;border-radius:18px;cursor:pointer;box-shadow:0 4px 0 #c4dfeb;transition:.1s
+  }
+  .opt:active{transform:translateY(3px);box-shadow:0 1px 0 #c4dfeb}
+  .opt.correct{background:var(--cedar-bright);color:#fff;box-shadow:0 4px 0 var(--cedar)}
+  .opt.wrong{background:#F7C9C7;color:var(--coral-deep);box-shadow:0 4px 0 #e3a4a1}
+  .opt:disabled{cursor:default}
+  .feedback{min-height:26px;margin-top:14px;font-family:'Baloo 2';font-weight:700;font-size:20px}
+  .feedback.good{color:var(--cedar)}
+  .feedback.nope{color:var(--coral-deep)}
+  .next-btn{
+    margin-top:6px;border:none;background:var(--gold);color:#5b3d00;font-family:'Baloo 2';font-weight:800;
+    font-size:20px;padding:13px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-deep);cursor:pointer
+  }
+  .next-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--gold-deep)}
+
+  /* Match */
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .match-btn{
+    border:none;font-family:'Baloo 2';font-weight:700;font-size:18px;padding:16px 8px;border-radius:16px;
+    cursor:pointer;min-height:64px;box-shadow:0 4px 0 rgba(38,65,75,.12);transition:.1s;line-height:1.1
+  }
+  .m-en{background:#fff;color:var(--sky)}
+  .m-lb{background:#fff;color:var(--cedar)}
+  .match-btn.sel{outline:3px solid var(--gold);transform:translateY(2px)}
+  .match-btn.done{background:var(--cedar-bright);color:#fff;box-shadow:0 4px 0 var(--cedar);cursor:default;opacity:.55}
+  .match-btn:active:not(.done){transform:translateY(2px)}
+  .match-status{text-align:center;font-family:'Baloo 2';font-weight:700;color:var(--muted);margin:12px 0 4px}
+
+  .controls{display:flex;justify-content:center;gap:10px;margin-top:16px}
+  .ghost-btn{
+    border:none;background:#fff;color:var(--cedar);font-family:'Baloo 2';font-weight:700;font-size:15px;
+    padding:10px 18px;border-radius:14px;box-shadow:0 3px 0 rgba(38,65,75,.10);cursor:pointer
+  }
+  .ghost-btn:active{transform:translateY(2px)}
+  .sound-toggle{position:fixed;top:12px;right:12px;border:none;background:#fff;width:44px;height:44px;border-radius:50%;
+    box-shadow:var(--shadow);font-size:20px;cursor:pointer;z-index:5}
+
+  /* Confetti burst */
+  .spark{position:fixed;top:0;left:0;pointer-events:none;z-index:20;font-size:22px;will-change:transform,opacity}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<button class="sound-toggle" id="soundBtn" aria-label="Toggle sound">🔊</button>
+<div class="wrap">
+  <header>
+    <h1 class="title"><span class="yalla">Yalla!</span> Learn Lebanese</h1>
+    <p class="subtitle">Tap, play, and grow your cedar tree 🌲</p>
+  </header>
+
+  <!-- Cedar + coins -->
+  <div class="cedar-card">
+    <svg class="cedar-svg" viewBox="0 0 100 116" aria-hidden="true">
+      <rect x="44" y="88" width="12" height="24" rx="3" fill="#8a5a34"/>
+      <polygon class="tier" data-tier="4" points="50,4 72,34 28,34" fill="#D7E2DB"/>
+      <polygon class="tier" data-tier="3" points="50,22 80,54 20,54" fill="#D7E2DB"/>
+      <polygon class="tier" data-tier="2" points="50,40 86,72 14,72" fill="#D7E2DB"/>
+      <polygon class="tier" data-tier="1" points="50,58 92,92 8,92" fill="#D7E2DB"/>
+    </svg>
+    <div class="coin-info">
+      <div class="coin-row">🪙 <span class="n" id="coinN">0</span></div>
+      <div class="coin-sub">coins earned</div>
+      <div class="grow-note" id="growNote">Answer quizzes to grow your tree!</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-mode="learn">🃏 Cards</button>
+    <button class="tab" data-mode="quiz">🎯 Quiz</button>
+    <button class="tab" data-mode="match">🧩 Match</button>
+    <button class="tab" data-mode="parent">👨‍👧 Parent<span class="tab-dot" id="parentDot"></span></button>
+  </div>
+
+  <!-- Category chips -->
+  <div class="cats" id="cats"></div>
+
+  <!-- Panels -->
+  <div id="panel"></div>
+</div>
+
+<script>
+/* ---------------- DATA ----------------
+   Each word: [ English, Lebanese (friendly spelling), note, Arabic script ]
+   The Arabic script drives the device's spoken-audio voice.
+   Friendly spelling key: 3 = 'ayn, 7 = soft 'h', 2 = little catch (glottal stop). */
+const BASE = [
+  { id:"phrases", label:"Say Hello", emoji:"👋", words:[
+    ["how are you?","kifak?","boy: kifak / girl: kifik","كِيفَك؟"],
+    ["good morning","saba7 il kher","","صَبَاح الخِير"],
+    ["good night","tosba7 3a kher","","تِصْبَح عَ خِير"],
+    ["thank you","shokran","","شُكْراً"],
+    ["yes","eh","","إيه"],
+    ["no","la2","","لَأْ"],
+    ["a lot","ktir","","كْتِير"],
+    ["I love you","b7ibbak","","بْحِبَّك"],
+    ["for sure","akid","","أَكِيد"],
+    ["I don't know","ma ba3rif","","ما بَعْرِف"],
+    ["welcome","ahla","","أَهْلا"],
+    ["also","kamen","","كَمان"],
+    ["keep going","kammil","","كَمِّل"],
+    ["what's your name?","shu ismak?","girl: shu ismik","شُو اسْمَك؟"],
+    ["my name is...","ismé...","","اسْمِي"],
+    ["I'm learning Arabic","3am bit3allam 3arabé","","عَم بِتْعَلَّم عَرَبِي"],
+    ["cheers","kesak","group: keskon","كِيسَك"],
+    ["health","so7a","","صَحّة"],
+  ]},
+  { id:"questions", label:"Questions", emoji:"❓", words:[
+    ["what","shu","","شُو"],
+    ["where","wein","","وين"],
+    ["when","eimta","","إيمْتا"],
+    ["who","min","","مِين"],
+    ["why","lesh","","لِيش"],
+    ["how many","kam","","كَم"],
+  ]},
+  { id:"pronouns", label:"Me & You", emoji:"🙋", words:[
+    ["I / me","ana","","أَنا"],
+    ["you (boy)","inta","","إنْتَ"],
+    ["you (girl)","intee","","إنْتِ"],
+    ["you all","into","","إنْتو"],
+    ["them","henni","","هِنِّي"],
+    ["mine","taba3eh","","تَبَعِي"],
+    ["yours","taba3ak","","تَبَعَك"],
+    ["yours (many)","taba3kon","","تَبَعْكُن"],
+  ]},
+  { id:"actions", label:"Action Words", emoji:"🏃", words:[
+    ["want","baddé","","بَدِّي"],
+    ["need","3ewiz","","عَايِز"],
+    ["eat","ekol","","كُول"],
+    ["drink","ishrab","","اِشْرَب"],
+    ["come","ta3a","","تَعا"],
+    ["go","rou7","","رُوح"],
+    ["stop","w2af","","وَقِّف"],
+    ["lift up","3allé","","عَلِّي"],
+    ["walk","imshé","we walk: nimshé","اِمْشِي"],
+    ["turn","leff","","لِفّ"],
+    ["give me","3teené","","عْطِينِي"],
+    ["take","khod","girl: khidé","خُود"],
+    ["throw","rmé","","رْمِي"],
+    ["play","il3ab","we play: nil3ab","اِلْعَب"],
+    ["now","halla2","","هَلَّق"],
+    ["later","ba3dein","","بَعْدين"],
+    ["go up","tla3","girl: tla3é","طْلَع"],
+    ["come down","nzal","girl: nzalé","نْزَل"],
+    ["be quiet","skot","girl: skité","سْكوت"],
+    ["repeat","3id","girl: 3idé","عِيد"],
+    ["leave it","khallé","","خَلِّي"],
+    ["pass me","naweelné","","ناوِلْنِي"],
+  ]},
+  { id:"directions", label:"Directions", emoji:"🧭", words:[
+    ["up","fo2","","فوق"],
+    ["down","ta7t","","تَحِت"],
+    ["straight","dughri","","دُغْرِي"],
+    ["here","lahon","","لَهون"],
+  ]},
+  { id:"describe", label:"Describing", emoji:"✨", words:[
+    ["good","mnih","girl/thing: mni7a","مْنِيح"],
+    ["bad","3aatel","","عاطِل"],
+    ["pretty","7ilo","girl: 7ilwe","حِلو"],
+    ["hard","sa3b","","صَعِب"],
+    ["heavy","t2il","","تْقِيل"],
+    ["light (not heavy)","khafif","","خَفِيف"],
+    ["strong","2awé","","قَوِي"],
+    ["weak","da3if","","ضَعِيف"],
+    ["faster","asra3","","أَسْرَع"],
+    ["slower","abta","","أَبْطَأ"],
+  ]},
+  { id:"jobs", label:"Jobs", emoji:"💼", words:[
+    ["teacher","m3allim","girl: m3allme","مْعَلِّم"],
+    ["lawyer","mhame","","مْحامِي"],
+    ["doctor","hakim","","حَكِيم"],
+  ]},
+  { id:"numbers", label:"Numbers", emoji:"🔢", words:[
+    ["1","wa7ad","","واحَد"],["2","tnen","","تْنين"],["3","tlete","","تْلاتِة"],["4","arb3a","","أَرْبَعَة"],["5","khamse","","خَمْسِة"],
+    ["6","sitte","","سِتِّة"],["7","sab3a","","سَبْعَة"],["8","tmene","","تْمانِة"],["9","tis3a","","تِسْعَة"],["10","3ashra","","عَشْرَة"],
+    ["11","7da3sh","","حْدَعْش"],["12","tna3sh","","تْنَعْش"],["13","tleta3sh","","تْلَطَّعْش"],["14","arba3ta3sh","","أَرْبَعْطَعْش"],["15","khamsta3sh","","خَمْسْطَعْش"],
+    ["16","sitta3sh","","سِتّْطَعْش"],["17","sabata3sh","","سَبْعْطَعْش"],["18","tmanta3sh","","تْمَنْطَعْش"],["19","tis3ta3sh","","تِسْعْطَعْش"],["20","3ishrin","","عِشْرِين"],
+    ["30","tletin","","تْلاتِين"],["40","arb3in","","أَرْبْعِين"],["50","khamsin","","خَمْسِين"],["60","sittin","","سِتِّين"],["70","sab3in","","سَبْعِين"],
+    ["80","tmenin","","تْمانِين"],["90","tis3in","","تِسْعِين"],["100","miyye","","مِيّة"],["1000","alf","","أَلِف"],["million","malyoon","","مَلْيون"],["billion","milyar","","مِلْيار"],
+  ]},
+  { id:"days", label:"Days", emoji:"📅", words:[
+    ["Sunday","a7ad","","الأَحَد"],
+    ["Monday","tanen","","التَّنين"],
+    ["Tuesday","tlata","","التَّلاتا"],
+    ["Wednesday","l-arb3a","","الأَرْبْعا"],
+    ["Thursday","khamis","","الخَمِيس"],
+    ["Friday","jem3a","","الجُمْعَة"],
+    ["Saturday","sabt","","السَّبِت"],
+  ]},
+  { id:"body", label:"My Body", emoji:"👀", words:[
+    ["face","wijj","","وِجّ"],["eye","3ayn","","عَين"],["ear","dén","two ears: dinayn","إِدِن"],["cheek","khadd","","خَدّ"],
+    ["mouth","timm","","تِمّ"],["hair","sha3r","","شَعِر"],["head","raas","","راس"],["teeth","snen","","سْنان"],
+    ["arm / hand","iid","","إيد"],["leg / foot","ijr","","إِجِر"],
+  ]},
+  { id:"house", label:"The House", emoji:"🏠", words:[
+    ["bed","takht","","تَخِت"],["plate","sahn","","صَحِن"],["fork","shawke","","شَوْكِة"],["spoon","mal3a2a","","مَلْعَقَة"],
+    ["knife","sikkine","","سِكِّين"],["pan","mi2laye","","مِقْلايِة"],["pot","tanjra","","طَنْجَرَة"],["chair","kirsé","","كِرْسِي"],
+    ["table","tawlé","","طاوْلِة"],["door","beb","","باب"],["window","shibbek","","شِبَّاك"],["stairs","daraj","","دَرَج"],
+    ["wall","heyt","","حِيط"],["floor","ard","","أَرِض"],["water","maiy","","مَيّ"],["light","daw","","ضَوْ"],
+    ["food","akel","","أَكِل"],["brush","firsheye","","فِرْشايِة"],
+  ]},
+  { id:"clothes", label:"Clothes", emoji:"👕", words:[
+    ["pants","bantalon","","بَنْطَلون"],["shirt","2amis","","قَمِيص"],["socks","klasaat","","كَلْسات"],["shoes","bot","","بوط"],["glasses","3wineyet","","عْوينات"],
+  ]},
+  { id:"nature", label:"Sky & Outside", emoji:"🌙", words:[
+    ["moon","2amar","","قَمَر"],["sun","shams","","شَمِس"],["sky","sama","","سَما"],["star","nijme","","نِجْمِة"],["wind","hawa","","هَوا"],
+    ["sand","ramil","","رَمِل"],["rock","hajar","","حَجَر"],["road","taree2","","طَرِيق"],["car","siyara","","سَيَّارَة"],
+    ["tree","shajra","","شَجْرَة"],["snow","talj","","تَلِج"],["fire","7ari2","","حَرِيق"],["sea","ba7ir","","بَحِر"],
+    ["flower","warde","","وَرْدِة"],["plane","tiyara","","طَيّارَة"],["desert","sa7ra","","صَحْرا"],["country","balad","","بَلَد"],
+  ]},
+  { id:"animals", label:"Animals", emoji:"🐾", words:[
+    ["bear","dibb","","دِبّ"],
+    ["donkey","7mar","","حْمار"],
+  ]},
+];
+
+/* ---------------- STATE ---------------- */
+let CATS = [];
+let customWords = [];          // parent-added words: {id,en,lb,note,ar,verified}
+let fam = {};                  // familiarity: { wordKey: correctCount }
+let parentUnlocked = false;
+let lastBackup = null;         // { sig, at } of the most recent full backup
+const FAM_MAX = 5;
+let state = { mode:"learn", cat:"all", psub:"dash", fcIndex:0, flipped:false, coins:0, sound:true };
+const $ = s => document.querySelector(s);
+const panel = $("#panel");
+const catsEl = $("#cats");
+const rand = n => Math.floor(Math.random()*n);
+const shuffle = a => a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const curCat = () => CATS.find(c=>c.id===state.cat) || CATS[0];
+
+/* word helpers (work for built-in arrays [en,lb,note,ar] and custom [.. ,id,verified]) */
+const keyOf = w => w[4] || w[0];
+const customToArr = o => [o.en||"", o.lb||"", o.note||"", o.ar||"", o.id, !!o.verified];
+const baseWordsAll = () => [].concat.apply([], BASE.map(c=>c.words));
+const kidCustom = () => customWords.filter(o=>o.verified && o.en && o.lb).map(customToArr);
+function rebuildCats(){
+  const kc = kidCustom();
+  CATS = [{ id:"all", label:"All Words", emoji:"🌟", words: baseWordsAll().concat(kc) }, ...BASE];
+  if(kc.length) CATS.push({ id:"mine", label:"My Words", emoji:"✍️", words: kc });
+}
+
+/* familiarity */
+const famOf = w => fam[keyOf(w)] || 0;
+function bumpFam(w){ const k=keyOf(w); fam[k]=Math.min(FAM_MAX,(fam[k]||0)+1); saveFam(); }
+function famMeter(w){
+  const f=famOf(w);
+  const dots=Array.from({length:FAM_MAX},(_,i)=>`<span class="fdot ${i<f?'on':''}"></span>`).join('');
+  return `<span class="fmeter"><span class="flabel">familiar</span>${dots}${f>=FAM_MAX?' ⭐':''}</span>`;
+}
+
+/* persistence (served over https, so localStorage is stable) */
+function loadStore(){
+  try{ fam = JSON.parse(localStorage.getItem('yalla.fam')) || {}; }catch(e){ fam={}; }
+  try{ customWords = JSON.parse(localStorage.getItem('yalla.custom')) || []; }catch(e){ customWords=[]; }
+  try{ lastBackup = JSON.parse(localStorage.getItem('yalla.lastBackup')) || null; }catch(e){ lastBackup=null; }
+}
+function saveFam(){ try{ localStorage.setItem('yalla.fam', JSON.stringify(fam)); }catch(e){} updateBackupBadge(); }
+function saveCustom(){ try{ localStorage.setItem('yalla.custom', JSON.stringify(customWords)); }catch(e){} updateBackupBadge(); }
+
+/* unsaved-progress tracking (compares current data to the last full backup) */
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31 + s.charCodeAt(i))|0; } return h; }
+function backupSig(){
+  let famKeys=0, famSum=0; for(const k in fam){ famKeys++; famSum+=fam[k]; }
+  const custom=JSON.stringify(customWords);
+  const clipKeys=[...clips.keys()].sort().join(',');
+  return `${famKeys}:${famSum}:${custom.length}:${hashStr(custom)}:${clips.size}:${hashStr(clipKeys)}`;
+}
+const hasContent = () => clips.size>0 || customWords.length>0 || Object.keys(fam).length>0;
+function isDirty(){ if(!hasContent()) return false; return !lastBackup || lastBackup.sig!==backupSig(); }
+function markBackedUp(){ lastBackup={sig:backupSig(), at:Date.now()}; try{ localStorage.setItem('yalla.lastBackup', JSON.stringify(lastBackup)); }catch(e){} updateBackupBadge(); }
+function relTime(ts){
+  if(!ts) return "never";
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<45) return "just now";
+  if(s<90) return "a minute ago";
+  const m=Math.floor(s/60); if(m<60) return m+" min ago";
+  const h=Math.floor(m/60); if(h<24) return h+" hour"+(h>1?"s":"")+" ago";
+  const d=Math.floor(h/24); if(d<7) return d+" day"+(d>1?"s":"")+" ago";
+  return new Date(ts).toLocaleDateString();
+}
+function updateBackupBadge(){
+  const dot=document.getElementById('parentDot');
+  if(dot) dot.classList.toggle('show', isDirty());
+  const st=document.getElementById('backupStatus');
+  if(st) st.innerHTML = backupStatusHTML();
+}
+function backupStatusHTML(){
+  if(!hasContent()) return "Nothing to back up yet.";
+  if(isDirty()) return `<span class="bk-warn">● Unsaved progress ${lastBackup?`since last backup ${relTime(lastBackup.at)}`:`(never backed up)`}. Download a backup to keep it safe.</span>`;
+  return `<span class="bk-ok">✓ Up to date. Last backup ${relTime(lastBackup.at)}.</span>`;
+}
+
+/* ---------------- SOUND ---------------- */
+let audioCtx;
+function beep(freq, dur=0.14, type="sine", vol=0.15){
+  if(!state.sound) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type=type; o.frequency.value=freq; o.connect(g); g.connect(audioCtx.destination);
+    g.gain.setValueAtTime(vol, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+dur);
+    o.start(); o.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+const goodSound = () => { beep(660,.12,"triangle"); setTimeout(()=>beep(880,.16,"triangle"),110); };
+const badSound  = () => beep(180,.2,"square",.1);
+const flipSound = () => beep(520,.06,"sine",.08);
+
+/* ---------------- SPOKEN VOICE ---------------- */
+const canSpeak = 'speechSynthesis' in window;
+let arVoice = null, voiceReady = false;
+function pickVoice(){
+  if(!canSpeak) return;
+  const vs = speechSynthesis.getVoices();
+  if(!vs.length) return;
+  arVoice =
+    vs.find(v=>/ar[-_]lb/i.test(v.lang)) ||   // Lebanese, if the device has it
+    vs.find(v=>/ar[-_](sy|ps|jo|eg)/i.test(v.lang)) || // nearby dialects
+    vs.find(v=>/^ar\b/i.test(v.lang)) ||       // any Arabic
+    vs.find(v=>/arabic/i.test(v.name)) || null;
+  voiceReady = true;
+  updateVoiceHint();
+}
+if(canSpeak){ speechSynthesis.onvoiceschanged = pickVoice; pickVoice(); }
+
+// speak(arabic, force): force=true always plays (explicit tap); otherwise respects mute
+function speak(arabic, force){
+  if(!canSpeak || !arabic) return;
+  if(!force && !state.sound) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(arabic);
+    u.lang = arVoice ? arVoice.lang : 'ar-SA';
+    if(arVoice) u.voice = arVoice;
+    u.rate = 0.75;  // slower, kid friendly
+    u.pitch = 1.05;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function updateVoiceHint(){
+  const h = document.getElementById('voiceHint');
+  if(!h) return;
+  h.textContent = (voiceReady && !arVoice)
+    ? "Tip: add an Arabic voice in your device settings to hear the fallback voice."
+    : "";
+}
+
+/* ---------------- RECORDED VOICE (parent) ---------------- */
+const clips = new Map();               // english key -> { blob, url, type }
+const canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+let mediaStream = null, activeRec = null;
+
+// IndexedDB (persists recordings on this device)
+let _db=null;
+function idb(){
+  return new Promise((res,rej)=>{
+    if(_db) return res(_db);
+    if(!('indexedDB' in window)) return rej(new Error("no idb"));
+    const r=indexedDB.open('yallaVoice',1);
+    r.onupgradeneeded=()=>{ r.result.createObjectStore('clips'); };
+    r.onsuccess=()=>{ _db=r.result; res(_db); };
+    r.onerror=()=>rej(r.error);
+  });
+}
+function idbPut(k,b){ return idb().then(db=>new Promise((res,rej)=>{const t=db.transaction('clips','readwrite');t.objectStore('clips').put(b,k);t.oncomplete=res;t.onerror=()=>rej(t.error);})); }
+function idbDel(k){ return idb().then(db=>new Promise((res,rej)=>{const t=db.transaction('clips','readwrite');t.objectStore('clips').delete(k);t.oncomplete=res;t.onerror=()=>rej(t.error);})); }
+function idbAll(){ return idb().then(db=>new Promise((res,rej)=>{const out=[];const t=db.transaction('clips','readonly');const c=t.objectStore('clips').openCursor();c.onsuccess=e=>{const cur=e.target.result;if(cur){out.push([cur.key,cur.value]);cur.continue();}else res(out);};c.onerror=()=>rej(c.error);})); }
+
+async function loadClips(){
+  try{
+    const all=await idbAll();
+    all.forEach(([k,blob])=>clips.set(k,{blob,url:URL.createObjectURL(blob),type:blob.type}));
+  }catch(e){}
+  if(state.mode==='parent' && state.psub==='record') renderRecord();
+  updateBackupBadge();
+}
+async function saveClip(key, blob){
+  const prev=clips.get(key); if(prev&&prev.url) URL.revokeObjectURL(prev.url);
+  clips.set(key,{blob,url:URL.createObjectURL(blob),type:blob.type});
+  try{ await idbPut(key,blob); }catch(e){}
+  updateBackupBadge();
+}
+async function removeClip(key){
+  const prev=clips.get(key); if(prev&&prev.url) URL.revokeObjectURL(prev.url);
+  clips.delete(key);
+  try{ await idbDel(key); }catch(e){}
+  updateBackupBadge();
+}
+function pickMime(){
+  const c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'];
+  for(const m of c){ try{ if(MediaRecorder.isTypeSupported(m)) return m; }catch(e){} }
+  return '';
+}
+// Why can/can't we record right here?
+function micEnv(){
+  let inFrame=false; try{ inFrame = window.top!==window.self; }catch(e){ inFrame=true; }
+  const hasAPI = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+  return { inFrame, hasAPI, secure: !!window.isSecureContext, proto: location.protocol };
+}
+function setRecStatus(msg, ok){
+  const st=document.getElementById('recStatus');
+  if(!st) return;
+  st.style.display = msg ? 'block' : 'none';
+  st.textContent = msg || '';
+  st.style.background = ok ? '#DCF0E6' : '#FBE3E2';
+  st.style.color = ok ? '#1f6b47' : '#9a3b38';
+}
+async function testMic(){
+  setRecStatus('Testing microphone...', true);
+  try{
+    if(!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) throw new Error('NoMediaDevices');
+    const s=await navigator.mediaDevices.getUserMedia({audio:true});
+    s.getTracks().forEach(t=>t.stop());
+    setRecStatus('Microphone works. You can record now.', true);
+  }catch(err){
+    const name=(err&&err.name)||err;
+    setRecStatus('Mic blocked ('+name+'). Open this file in a browser tab over http://localhost or https, then allow the microphone. It cannot work inside an app preview or from a file:// page.', false);
+  }
+}
+async function startRec(key){
+  try{
+    if(activeRec) stopRec();
+    if(!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) throw new Error('NoMediaDevices');
+    mediaStream = mediaStream || await navigator.mediaDevices.getUserMedia({audio:true});
+    const mime=pickMime();
+    const rec = mime ? new MediaRecorder(mediaStream,{mimeType:mime}) : new MediaRecorder(mediaStream);
+    const chunks=[];
+    rec.ondataavailable=e=>{ if(e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop=async()=>{ const blob=new Blob(chunks,{type:rec.mimeType||'audio/webm'}); activeRec=null; await saveClip(key,blob); renderRecord(); };
+    activeRec={key,recorder:rec};
+    rec.start();
+    setRecStatus('', true);
+    renderRecord();
+  }catch(err){
+    activeRec=null;
+    const name=(err&&err.name)||err;
+    setRecStatus('Could not start recording ('+name+'). The mic is not available here. Open the file in a browser tab over http://localhost or https and allow the microphone.', false);
+  }
+}
+function stopRec(){ try{ if(activeRec&&activeRec.recorder&&activeRec.recorder.state!=='inactive') activeRec.recorder.stop(); }catch(e){} }
+
+// Play a word: prefer the recorded voice, fall back to text-to-speech
+function playWord(item, force){
+  if(!item) return;
+  if(!force && !state.sound) return;
+  const clip=clips.get(keyOf(item));
+  if(clip && clip.url){ try{ const a=new Audio(clip.url); a.play().catch(()=>{}); return; }catch(e){} }
+  speak(item[3], force);
+}
+
+// Voice pack export / import (backup + move between devices)
+function blobToB64(b){ return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej(r.error);r.readAsDataURL(b);}); }
+function b64ToBlob(b64,type){ const s=atob(b64),a=new Uint8Array(s.length); for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i); return new Blob([a],{type:type||'audio/webm'}); }
+async function exportPack(){
+  if(!clips.size){ alert("No recordings yet. Record some words first!"); return; }
+  const data={app:"yalla-lebanese-voice",version:1,clips:{}};
+  for(const [k,c] of clips){ data.clips[k]={type:c.type||c.blob.type,data:await blobToB64(c.blob)}; }
+  const url=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
+  const a=document.createElement('a'); a.href=url; a.download='yalla-voice-pack.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+async function importPack(file){
+  try{
+    const data=JSON.parse(await file.text()); const cl=data.clips||{}; let n=0;
+    for(const k of Object.keys(cl)){ await saveClip(k,b64ToBlob(cl[k].data,cl[k].type)); n++; }
+    alert("Loaded "+n+" recording"+(n===1?"":"s")+".");
+    renderRecord();
+  }catch(e){ alert("That file isn't a valid voice pack."); }
+}
+function downloadJSON(text, name){
+  const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+  const a=document.createElement('a'); a.href=url; a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+// Full backup: recordings + custom words + familiarity, all in one file
+async function exportAll(){
+  const data={ app:"yalla-lebanese-backup", version:1, savedAt:new Date().toISOString(), fam, customWords, clips:{} };
+  for(const [k,c] of clips){ data.clips[k]={type:c.type||c.blob.type,data:await blobToB64(c.blob)}; }
+  downloadJSON(JSON.stringify(data), 'yalla-backup.json');
+  markBackedUp();
+}
+async function importAll(file, msgEl){
+  const say=t=>{ if(msgEl) msgEl.textContent=t; };
+  try{
+    const data=JSON.parse(await file.text());
+    if(data.app && data.app!=="yalla-lebanese-backup" && !data.clips && !data.fam && !data.customWords)
+      throw new Error("wrong file");
+    // familiarity: keep the higher score per word
+    if(data.fam){ for(const k in data.fam){ fam[k]=Math.max(fam[k]||0, data.fam[k]||0); } saveFam(); }
+    // custom words: union by id (imported wins on conflict)
+    if(Array.isArray(data.customWords)){
+      const byId={}; customWords.forEach(o=>{ if(o&&o.id) byId[o.id]=o; });
+      data.customWords.forEach(o=>{ if(o&&o.id) byId[o.id]=o; });
+      customWords=Object.values(byId); saveCustom();
+    }
+    // recordings
+    let n=0; const cl=data.clips||{};
+    for(const k of Object.keys(cl)){ await saveClip(k,b64ToBlob(cl[k].data,cl[k].type)); n++; }
+    rebuildCats(); renderCats();
+    say(`Restored: ${n} recordings, ${Array.isArray(data.customWords)?data.customWords.length:0} custom words, progress merged.`);
+    updateBackupBadge();
+  }catch(e){ say("That file isn't a valid Yalla backup."); }
+}
+
+/* ---------------- CEDAR + COINS ---------------- */
+function addCoins(n){
+  state.coins += n;
+  $("#coinN").textContent = state.coins;
+  updateCedar();
+}
+function updateCedar(){
+  // 4 tiers light up across 40 coins (10 each), then stays full
+  const tiers = document.querySelectorAll(".tier");
+  const greens = ["#54B989","#3FA877","#2E7D5B","#256B4C"];
+  const lit = Math.min(4, Math.floor(state.coins/10));
+  tiers.forEach(t=>{
+    const idx = +t.dataset.tier; // 1..4 bottom->top
+    if(idx <= lit){ t.setAttribute("fill", greens[idx-1]); t.style.transform="scale(1)"; }
+    else { t.setAttribute("fill", "#D7E2DB"); }
+  });
+  const note = $("#growNote");
+  if(lit>=4) note.textContent = "Your cedar is full and mighty! 🌟";
+  else note.textContent = `${(lit+1)*10 - state.coins} more coins to grow taller 🌱`;
+}
+
+/* ---------------- CONFETTI ---------------- */
+function burst(x,y){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const emojis=["🪙","⭐","🌿","🎉","✨"];
+  for(let i=0;i<10;i++){
+    const s=document.createElement("div"); s.className="spark";
+    s.textContent=emojis[rand(emojis.length)];
+    s.style.left=x+"px"; s.style.top=y+"px";
+    document.body.appendChild(s);
+    const dx=(Math.random()-.5)*220, dy=-120-Math.random()*160, rot=(Math.random()-.5)*720;
+    s.animate([
+      {transform:"translate(0,0) rotate(0)",opacity:1},
+      {transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`,opacity:0}
+    ],{duration:900+Math.random()*400,easing:"cubic-bezier(.2,.7,.3,1)"}).onfinish=()=>s.remove();
+  }
+}
+
+/* ---------------- CHIPS + TABS ---------------- */
+function renderCats(){
+  catsEl.innerHTML="";
+  CATS.forEach(c=>{
+    const b=document.createElement("button");
+    b.className="chip"+(c.id===state.cat?" active":"");
+    b.innerHTML=`<span class="emoji">${c.emoji}</span>${c.label}`;
+    b.onclick=()=>{ state.cat=c.id; state.fcIndex=0; state.flipped=false; renderCats(); render(); };
+    catsEl.appendChild(b);
+  });
+}
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    state.mode=t.dataset.mode; state.fcIndex=0; state.flipped=false; render();
+  };
+});
+$("#soundBtn").onclick=function(){ state.sound=!state.sound; this.textContent=state.sound?"🔊":"🔇"; if(state.sound) beep(600,.1); };
+
+/* ---------------- RENDER ROUTER ---------------- */
+function render(){
+  catsEl.classList.toggle("hidden", state.mode==="parent");
+  if(state.mode==="learn") renderLearn();
+  else if(state.mode==="quiz") renderQuiz();
+  else if(state.mode==="match") renderMatch();
+  else renderParent();
+}
+
+/* ---------------- FLASHCARDS ---------------- */
+function renderLearn(){
+  const w=curCat().words; const item=w[state.fcIndex];
+  panel.innerHTML=`
+    <div class="panel">
+      <div class="fc-stage">
+        <div class="flashcard ${state.flipped?"flipped":""}" id="card">
+          <div class="face front">
+            <div class="kicker">English</div>
+            <div class="word">${item[0]}</div>
+            <div class="hint">tap to see Lebanese</div>
+          </div>
+          <div class="face back">
+            <div class="kicker">Lebanese</div>
+            <div class="word">${item[1]}</div>
+            ${item[2]?`<div class="say">${item[2]}</div>`:""}
+            <button class="mini-spk" id="cardSpk" aria-label="Hear it">🔊</button>
+          </div>
+        </div>
+      </div>
+      <div class="tap-tip">👆 tap the card to flip it</div>
+      <div class="center" style="margin-top:10px">${famMeter(item)}</div>
+      <div class="center"><button class="hear-btn" id="hearBtn"><span class="spk">🔊</span> Hear it</button></div>
+      <div class="voice-hint" id="voiceHint"></div>
+      <div class="fc-nav">
+        <button class="nav-btn" id="prev">‹</button>
+        <div class="counter">${state.fcIndex+1} / ${w.length}</div>
+        <button class="nav-btn" id="next">›</button>
+      </div>
+    </div>`;
+  const flip=()=>{ state.flipped=!state.flipped; flipSound(); $("#card").classList.toggle("flipped"); if(state.flipped) playWord(item); };
+  $("#card").onclick=flip;
+  $("#hearBtn").onclick=(e)=>{ e.stopPropagation(); playWord(item, true); };
+  $("#cardSpk").onclick=(e)=>{ e.stopPropagation(); playWord(item, true); };
+  updateVoiceHint();
+  $("#prev").onclick=()=>{ state.fcIndex=(state.fcIndex-1+w.length)%w.length; state.flipped=false; renderLearn(); };
+  $("#next").onclick=()=>{ state.fcIndex=(state.fcIndex+1)%w.length; state.flipped=false; renderLearn(); };
+}
+
+/* ---------------- QUIZ ---------------- */
+let quiz = null;
+function weightedPick(list){
+  // low familiarity -> higher weight, so the quiz focuses on weaker words
+  const weights=list.map(w => (FAM_MAX - Math.min(FAM_MAX, famOf(w)) + 1));
+  let total=weights.reduce((a,b)=>a+b,0), r=Math.random()*total;
+  for(let i=0;i<list.length;i++){ r-=weights[i]; if(r<=0) return list[i]; }
+  return list[list.length-1];
+}
+function newQuiz(){
+  const w=curCat().words;
+  const answer=weightedPick(w);
+  const askLbToEn = Math.random()<0.5 && w.length>=3; // mix directions
+  let pool=shuffle(w.filter(x=>x!==answer)).slice(0,3);
+  const opts=shuffle([answer,...pool]);
+  quiz={answer,opts,askLbToEn,done:false};
+}
+function renderQuiz(){
+  const w=curCat().words;
+  if(w.length<3){ panel.innerHTML=`<div class="panel"><div class="q-card">This set is small. Pick another category to quiz! 🎯</div></div>`; return; }
+  if(!quiz) newQuiz();
+  const a=quiz.answer;
+  const prompt = quiz.askLbToEn ? a[1] : a[0];
+  const promptKick = quiz.askLbToEn ? "Lebanese" : "English";
+  const ask = quiz.askLbToEn ? "What does this mean?" : "How do you say it in Lebanese?";
+  panel.innerHTML=`
+    <div class="panel">
+      <div class="q-card">
+        <div class="q-kicker">${promptKick}</div>
+        <div class="q-word">${prompt}${quiz.askLbToEn?`<button class="q-spk" id="qSpk" aria-label="Hear it">🔊</button>`:""}</div>
+        <div class="q-ask">${ask}</div>
+        <div class="opts" id="opts"></div>
+        <div class="feedback" id="fb"></div>
+        <button class="next-btn" id="nextQ" style="display:none">Next ➜</button>
+      </div>
+    </div>`;
+  const optsEl=$("#opts");
+  quiz.opts.forEach(o=>{
+    const b=document.createElement("button");
+    b.className="opt";
+    b.textContent = quiz.askLbToEn ? o[0] : o[1];
+    b.onclick=(e)=>choose(o,b,e);
+    optsEl.appendChild(b);
+  });
+  $("#nextQ").onclick=()=>{ newQuiz(); renderQuiz(); };
+  const qs=$("#qSpk"); if(qs) qs.onclick=()=>playWord(a, true);
+  if(quiz.askLbToEn) playWord(a); // say the Lebanese prompt aloud automatically
+}
+function choose(o,btn,e){
+  if(quiz.done) return;
+  quiz.done=true;
+  const correct = o===quiz.answer;
+  const buttons=[...document.querySelectorAll(".opt")];
+  buttons.forEach(b=>{
+    b.disabled=true;
+    const label=b.textContent;
+    const isAns = (quiz.askLbToEn? quiz.answer[0] : quiz.answer[1])===label;
+    if(isAns) b.classList.add("correct");
+  });
+  const fb=$("#fb");
+  if(correct){
+    btn.classList.add("correct");
+    fb.textContent="Sah! 🎉 +2 coins"; fb.className="feedback good";
+    addCoins(2); goodSound(); playWord(quiz.answer); bumpFam(quiz.answer);
+    const r=btn.getBoundingClientRect(); burst(r.left+r.width/2, r.top);
+  }else{
+    btn.classList.add("wrong");
+    fb.textContent="Not yet! See the green one 👆"; fb.className="feedback nope";
+    badSound();
+  }
+  $("#nextQ").style.display="inline-block";
+}
+
+/* ---------------- MATCH ---------------- */
+let match=null;
+function newMatch(){
+  const w=shuffle(curCat().words).slice(0,4);
+  match={pairs:w, left:shuffle(w.map((x,i)=>({t:x[0],id:i}))), right:shuffle(w.map((x,i)=>({t:x[1],id:i}))), sel:null, done:0};
+}
+function renderMatch(){
+  if(curCat().words.length<4){ panel.innerHTML=`<div class="panel"><div class="q-card">Pick a bigger category to play Match! 🧩</div></div>`; return; }
+  if(!match) newMatch();
+  panel.innerHTML=`
+    <div class="panel">
+      <div class="match-status" id="mStatus">Match English to Lebanese • ${match.done}/4</div>
+      <div class="match-grid" id="grid"></div>
+      <div class="controls"><button class="ghost-btn" id="newMatch">↻ New round</button></div>
+    </div>`;
+  const grid=$("#grid");
+  // interleave rows: left col english, right col lebanese
+  for(let r=0;r<4;r++){
+    const L=match.left[r], R=match.right[r];
+    grid.appendChild(makeMatchBtn(L,"m-en","L"));
+    grid.appendChild(makeMatchBtn(R,"m-lb","R"));
+  }
+  $("#newMatch").onclick=()=>{ newMatch(); renderMatch(); };
+}
+function makeMatchBtn(item,cls,side){
+  const b=document.createElement("button");
+  b.className="match-btn "+cls;
+  b.textContent=item.t; b.dataset.id=item.id; b.dataset.side=side;
+  if(match.solved && match.solved.has(item.id)) b.classList.add("done"), b.disabled=true;
+  b.onclick=()=>pick(b,item,side);
+  return b;
+}
+function pick(btn,item,side){
+  if(btn.classList.contains("done")) return;
+  if(!match.sel){ match.sel={btn,item,side}; btn.classList.add("sel"); flipSound(); return; }
+  if(match.sel.btn===btn){ btn.classList.remove("sel"); match.sel=null; return; }
+  if(match.sel.side===side){ // same column, switch selection
+    match.sel.btn.classList.remove("sel"); match.sel={btn,item,side}; btn.classList.add("sel"); return;
+  }
+  // compare
+  const a=match.sel;
+  if(a.item.id===item.id){
+    match.solved=match.solved||new Set(); match.solved.add(item.id);
+    a.btn.classList.remove("sel"); a.btn.classList.add("done"); a.btn.disabled=true;
+    btn.classList.add("done"); btn.disabled=true;
+    match.done++; addCoins(1); goodSound();
+    const wobj = curCat().words.find(x=>x[0]===a.item.t || x[1]===a.item.t);
+    if(wobj){ playWord(wobj); bumpFam(wobj); }
+    const r=btn.getBoundingClientRect(); burst(r.left+r.width/2,r.top);
+    $("#mStatus").textContent = match.done>=4 ? "All matched! 🎉 +bonus" : `Match English to Lebanese • ${match.done}/4`;
+    if(match.done>=4){ addCoins(2); setTimeout(()=>{ newMatch(); renderMatch(); }, 1100); }
+    match.sel=null;
+  }else{
+    badSound();
+    const sBtn=a.btn, bBtn=btn;
+    sBtn.classList.add("wrong"); bBtn.classList.add("wrong");
+    setTimeout(()=>{ sBtn.classList.remove("sel","wrong"); bBtn.classList.remove("wrong"); },520);
+    match.sel=null;
+  }
+}
+
+/* ---------------- RECORD (parent) ---------------- */
+function renderRecord(){
+  const host = document.getElementById('psub') || panel;
+  const words = baseWordsAll().concat(customWords.map(customToArr));
+  const recorded = words.filter(w=>clips.has(keyOf(w))).length;
+  const env=micEnv();
+  const blocked = (!env.hasAPI || !env.secure || env.inFrame);
+  let warn;
+  if(blocked){
+    const why=[];
+    if(env.inFrame) why.push("it's inside an app preview / embedded frame");
+    else if(env.proto==='file:') why.push("it was opened as a local file (file://)");
+    else if(!env.secure) why.push("this page isn't a secure (https) context");
+    if(!env.hasAPI && !env.inFrame) why.push("this browser is hiding the mic API");
+    warn = `<div class="rec-warn"><b>Recording is blocked here</b> because ${why.join(", and ")}.
+      <br>Open the hosted (https) link in Chrome or Safari and allow the mic. Playback and importing a voice pack still work here.</div>`;
+  } else {
+    warn = `<div class="rec-warn">Tap a red mic, allow the microphone when asked, say the word once, then tap again to stop.</div>`;
+  }
+  host.innerHTML = `
+      <div class="rec-head">
+        <div class="rec-progress" id="recProg">🎙️ ${recorded} / ${words.length} words recorded</div>
+        <div class="rec-tools">
+          <button class="ghost-btn" id="testBtn">🎤 Test mic</button>
+          <button class="ghost-btn" id="expBtn">⬇︎ Export pack</button>
+          <button class="ghost-btn" id="impBtn">⬆︎ Import pack</button>
+          <input type="file" id="impFile" accept="application/json,.json" class="hidden" />
+        </div>
+        <div class="rec-status" id="recStatus" style="display:none"></div>
+        ${warn}
+      </div>
+      <div class="rec-list" id="recList"></div>`;
+  const list=host.querySelector("#recList");
+  words.forEach(w=>{
+    const k=keyOf(w);
+    const has=clips.has(k);
+    const isRec=activeRec && activeRec.key===k;
+    const label = w[0] && w[0].length ? w[0] : "(unlabeled)";
+    const row=document.createElement("div"); row.className="rec-row";
+    row.innerHTML=`
+      <span class="rec-dot ${has?"on":""}"></span>
+      <div class="txt">
+        <div class="en">${label}</div>
+        <div class="lb">${w[1]} <span class="tl">${w[3]}</span></div>
+      </div>
+      <button class="icon-btn ib-play" ${has?"":"disabled"} title="Play">▶</button>
+      <button class="icon-btn ib-rec ${isRec?"recording":""}" title="Record">${isRec?"⏹":"🎙️"}</button>`;
+    const [playBtn, recBtn]=row.querySelectorAll("button");
+    playBtn.onclick=()=>playWord(w, true);
+    recBtn.onclick=()=> isRec ? stopRec() : startRec(k);
+    list.appendChild(row);
+  });
+  host.querySelector("#testBtn").onclick=testMic;
+  host.querySelector("#expBtn").onclick=exportPack;
+  host.querySelector("#impBtn").onclick=()=>host.querySelector("#impFile").click();
+  host.querySelector("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importPack(f); e.target.value=""; };
+}
+
+/* ---------------- PARENT AREA (gated) ---------------- */
+function renderParent(){
+  if(!parentUnlocked){ renderGate(); return; }
+  panel.innerHTML = `
+    <div class="psub-tabs">
+      <button data-sub="dash">📊 Dashboard</button>
+      <button data-sub="words">✍️ Words</button>
+      <button data-sub="record">🎙️ Record</button>
+    </div>
+    <div id="psub"></div>`;
+  [...panel.querySelectorAll('.psub-tabs button')].forEach(b=>{
+    b.classList.toggle('active', b.dataset.sub===state.psub);
+    b.onclick=()=>{ state.psub=b.dataset.sub; renderParent(); };
+  });
+  if(state.psub==='words') renderWords();
+  else if(state.psub==='record') renderRecord();
+  else renderDashboard();
+}
+
+let gateAnswer=0;
+function renderGate(){
+  const a=13+rand(60), b=12+rand(60); gateAnswer=a+b;
+  panel.innerHTML = `
+    <div class="gate">
+      <div class="gate-lock">🔒</div>
+      <h3>Grown-ups only</h3>
+      <p>Progress tracking, recording, and adding words live here. Solve this to continue:</p>
+      <div class="gate-q">${a} + ${b} = ?</div>
+      <input id="gateIn" inputmode="numeric" placeholder="type the answer" />
+      <button class="next-btn" id="gateGo">Unlock</button>
+      <div class="gate-msg" id="gateMsg"></div>
+    </div>`;
+  const go=()=>{
+    if(parseInt($("#gateIn").value,10)===gateAnswer){ parentUnlocked=true; renderParent(); }
+    else { $("#gateMsg").textContent="Not quite. Give it another go."; $("#gateIn").value=""; $("#gateIn").focus(); }
+  };
+  $("#gateGo").onclick=go;
+  $("#gateIn").addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+}
+
+function bar(pct, color){ return `<div class="bar"><div class="bar-fill" style="width:${Math.round(pct)}%;background:${color}"></div></div>`; }
+
+function renderDashboard(){
+  const host=document.getElementById('psub');
+  const parentWords = baseWordsAll().concat(customWords.map(customToArr));
+  const kidWords = CATS.find(c=>c.id==="all").words;
+  const total = parentWords.length;
+  const recorded = parentWords.filter(w=>clips.has(keyOf(w))).length;
+  const b={neww:0,learning:0,familiar:0,mastered:0};
+  kidWords.forEach(w=>{ const f=famOf(w); if(f<=0)b.neww++; else if(f<=2)b.learning++; else if(f<FAM_MAX)b.familiar++; else b.mastered++; });
+  const kn=kidWords.length||1;
+  const customCount=customWords.length;
+  const unverified=customWords.filter(o=>!o.verified).length;
+  const practice = kidWords.filter(w=>famOf(w)<FAM_MAX).sort((x,y)=>famOf(x)-famOf(y)).slice(0,10);
+  host.innerHTML = `
+    <div class="dash">
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-n">${kidWords.length}</div><div class="stat-l">words for kid</div></div>
+        <div class="stat"><div class="stat-n">${b.mastered}</div><div class="stat-l">mastered</div></div>
+        <div class="stat"><div class="stat-n">${recorded}</div><div class="stat-l">recorded</div></div>
+        <div class="stat"><div class="stat-n">${customCount}</div><div class="stat-l">custom${unverified?` (${unverified} unverified)`:""}</div></div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">🎙️ Recordings</div>
+        ${bar(recorded/total*100, "var(--cedar-bright)")}
+        <div class="dash-sub">${recorded} of ${total} words have your voice</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">📈 Familiarity</div>
+        <div class="fam-row"><span>🆕 New</span>${bar(b.neww/kn*100,"#9fb4be")}<b>${b.neww}</b></div>
+        <div class="fam-row"><span>🌱 Learning</span>${bar(b.learning/kn*100,"var(--gold)")}<b>${b.learning}</b></div>
+        <div class="fam-row"><span>💪 Familiar</span>${bar(b.familiar/kn*100,"var(--sky)")}<b>${b.familiar}</b></div>
+        <div class="fam-row"><span>⭐ Mastered</span>${bar(b.mastered/kn*100,"var(--cedar-bright)")}<b>${b.mastered}</b></div>
+        <div class="dash-sub">Familiarity goes up each time a word is answered right in Quiz or Match. Quizzes lean toward the weakest words.</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">🎯 Needs practice</div>
+        <div class="practice">${practice.length ? practice.map(w=>`<span class="pchip">${w[0]||w[1]} <i>${"●".repeat(famOf(w))+"○".repeat(FAM_MAX-famOf(w))}</i></span>`).join("") : "Everything is mastered. 🎉"}</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-title">💾 Backup everything</div>
+        <div class="dash-sub" id="backupStatus" style="margin-top:0;font-weight:800">${backupStatusHTML()}</div>
+        <div class="dash-sub" style="margin-top:6px">One file holding recordings, custom words, and familiarity progress. Restore it on another device to move it all across. Restoring merges: it keeps the higher familiarity per word and unions words and recordings.</div>
+        <div class="rec-tools" style="margin-top:10px">
+          <button class="ghost-btn" id="bkExp">⬇︎ Download backup</button>
+          <button class="ghost-btn" id="bkImp">⬆︎ Restore backup</button>
+          <input type="file" id="bkFile" accept="application/json,.json" class="hidden">
+        </div>
+        <div class="dash-sub" id="backupMsg" style="font-weight:800"></div>
+      </div>
+
+      <div class="dash-card">
+        <button class="ghost-btn" id="resetFam">↺ Reset familiarity</button>
+      </div>
+    </div>`;
+  const rf=host.querySelector("#resetFam");
+  rf.onclick=()=>{ if(confirm("Reset all familiarity progress? Recordings and words are kept.")){ fam={}; saveFam(); renderDashboard(); } };
+  host.querySelector("#bkExp").onclick=exportAll;
+  host.querySelector("#bkImp").onclick=()=>host.querySelector("#bkFile").click();
+  host.querySelector("#bkFile").onchange=e=>{ const f=e.target.files[0]; if(f) importAll(f, host.querySelector("#backupMsg")).then(()=>{ /* refresh stats */ if(state.psub==='dash') { const msg=host.querySelector('#backupMsg').textContent; renderDashboard(); const m=document.querySelector('#backupMsg'); if(m) m.textContent=msg; } }); e.target.value=""; };
+}
+
+function renderWords(){
+  const host=document.getElementById('psub');
+  const rows = customWords.map(o=>{
+    const badge = o.verified ? `<span class="badge ok">verified</span>` : `<span class="badge no">unverified</span>`;
+    return `
+      <div class="word-card" data-id="${o.id}">
+        <div class="word-top">${badge}<button class="del" data-id="${o.id}" title="Delete">🗑️</button></div>
+        <label>English <input data-f="en" data-id="${o.id}" value="${(o.en||"").replace(/"/g,'&quot;')}" placeholder="(unlabeled)"></label>
+        <label>Lebanese <input data-f="lb" data-id="${o.id}" value="${(o.lb||"").replace(/"/g,'&quot;')}" placeholder="e.g. marhaba"></label>
+        <label>Arabic (for audio) <input data-f="ar" data-id="${o.id}" dir="rtl" value="${(o.ar||"").replace(/"/g,'&quot;')}" placeholder="optional"></label>
+        <label class="verify-line"><input type="checkbox" data-f="verified" data-id="${o.id}" ${o.verified?"checked":""}> Verified (show to the kid)</label>
+      </div>`;
+  }).join("");
+  host.innerHTML = `
+    <div class="words-head">
+      <div class="dash-title">✍️ Add a word</div>
+      <div class="add-form">
+        <input id="nwEn" placeholder="English (can leave blank for now)">
+        <input id="nwLb" placeholder="Lebanese (friendly spelling)">
+        <input id="nwAr" dir="rtl" placeholder="Arabic script (optional, for audio)">
+        <input id="nwNote" placeholder="Note (optional)">
+        <button class="next-btn" id="addWord">Add word</button>
+        <div class="gate-msg" id="wordsMsg"></div>
+      </div>
+      <div class="dash-sub">New words start <b>unverified</b> and stay hidden from the kid's cards and games until you tick <b>Verified</b>. Editing lives here in the grown-up area, so the kid can't change words by accident.</div>
+    </div>
+    <div class="words-list">${rows || `<div class="dash-sub" style="text-align:center;padding:14px">No custom words yet. Add one above.</div>`}</div>`;
+
+  host.querySelector("#addWord").onclick=addCustomWord;
+  host.querySelectorAll('.word-card input').forEach(inp=>{
+    const ev = inp.type==='checkbox' ? 'change' : 'change';
+    inp.addEventListener(ev, ()=>{
+      const o=customWords.find(x=>x.id===inp.dataset.id); if(!o) return;
+      const f=inp.dataset.f;
+      o[f] = inp.type==='checkbox' ? inp.checked : inp.value.trim();
+      saveCustom(); rebuildCats();
+      if(f==='verified'){ renderWords(); renderCats(); }
+    });
+  });
+  host.querySelectorAll('.word-card .del').forEach(btn=>{
+    btn.onclick=()=>{ if(confirm("Delete this word?")){ const id=btn.dataset.id; removeClip(id); customWords=customWords.filter(x=>x.id!==id); saveCustom(); rebuildCats(); renderWords(); renderCats(); } };
+  });
+}
+function addCustomWord(){
+  const en=$("#nwEn").value.trim(), lb=$("#nwLb").value.trim(), ar=$("#nwAr").value.trim(), note=$("#nwNote").value.trim();
+  if(!en && !lb){ $("#wordsMsg").textContent="Type at least an English or a Lebanese word."; return; }
+  customWords.push({ id:"c"+Date.now().toString(36)+rand(999), en, lb, note, ar, verified:false });
+  saveCustom(); rebuildCats(); renderWords();
+}
+
+/* ---------------- INIT ---------------- */
+loadStore();
+rebuildCats();
+renderCats();
+render();
+updateCedar();
+loadClips();
+updateBackupBadge();
+</script>
+</body>
+</html>
